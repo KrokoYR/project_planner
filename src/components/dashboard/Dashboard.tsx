@@ -2,6 +2,8 @@ import React, {FC} from 'react';
 import Notifications from "./Notifications";
 import ProjectList from "../project/ProjectList";
 import { PROJECT_STATE } from '../../store/reducers/project/types';
+import {AppState} from "../../store";
+import {connect} from "react-redux";
 
 const Dashboard: FC<PROJECT_STATE> = ({projects}) => {
 	return (
@@ -18,4 +20,14 @@ const Dashboard: FC<PROJECT_STATE> = ({projects}) => {
 	)
 }
 
-export default Dashboard;
+const mapStateToProps = (state:AppState) => {
+	return{
+		projects: state.project.projects
+	}
+}
+
+const DashboardContainer = connect(
+	mapStateToProps
+)(Dashboard);
+
+export {DashboardContainer};
