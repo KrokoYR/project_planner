@@ -4,8 +4,9 @@ import Navbar from "./components/layout/Navbar";
 import ProjectDetails from "./components/project/ProjectDetails";
 import SignIn from "./components/auth/SignIn";
 import SignUp from './components/auth/SignUp';
-import {CreateProjectContainer} from "./components/project/CreateProject";
-import DashboardContainer from "./components/dashboard/Dashboard-container";
+import { CreateProjectContainer } from "./components/project/CreateProject";
+import { DashboardContainer } from './components/dashboard/Dashboard';
+
 
 class App extends Component<any, any>{
 	render() {
