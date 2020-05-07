@@ -1,4 +1,4 @@
-## Project setup:
+### Project setup:
 
 * Firebase/Firestore
 * Typescript
@@ -6,10 +6,17 @@
 * react-redux-firebase/redux-firestore
  
 ### What is finished:
-* User authentication
+* User authentication(Login/Logout)
 * Connection with firestore
 * Dynamically updating(useFirestoreConnect)
 * Basic UI
+
+### TODO:
+* Dynamically updating UI
+* User SignUp(+Profile data)
+* Formatting dates(currently has mistakes)
+* Notification component
+* Deploy
 
 ## Available Scripts
 
