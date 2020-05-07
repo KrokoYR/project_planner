@@ -1,10 +1,12 @@
-import React, {ChangeEvent, Dispatch, FC, FormEvent, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useState} from 'react';
 import {connect} from 'react-redux';
 import {PROJECT_TYPE} from "../../store/reducers/project/types";
 import {thunkCreateProject} from "../../store/reducers/project/actions";
-import {AppActions, AppState} from "../../store";
+import {AppActions} from "../../store";
 import {ThunkDispatch} from 'redux-thunk';
 import {bindActionCreators} from "redux";
+
+// Firebase:
 
 interface ProjectProps {
 	thunkCreateProject: (project: PROJECT_TYPE) => void
@@ -26,7 +28,6 @@ const CreateProject: FC<ProjectProps> = ({thunkCreateProject}) => {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		thunkCreateProject({
-			id: 20,
 			title: title,
 			content: content
 		})
@@ -57,8 +58,7 @@ const CreateProject: FC<ProjectProps> = ({thunkCreateProject}) => {
 }
 
 const mapDispatchToProps = (
-	dispatch: ThunkDispatch<any, any, AppActions>,
-	ownProps: ProjectProps
+	dispatch: ThunkDispatch<any, any, AppActions>
 ): ProjectProps => ({
 	thunkCreateProject: bindActionCreators(thunkCreateProject, dispatch)
 })
