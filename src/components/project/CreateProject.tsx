@@ -1,10 +1,14 @@
 import React, {ChangeEvent, FC, FormEvent, useState} from 'react';
-import {connect} from 'react-redux';
+
+// Types and actions:
 import {PROJECT_TYPE} from "../../store/reducers/project/types";
 import {thunkCreateProject} from "../../store/reducers/project/actions";
+
+// Imports to handle mapDispatchToProps:
 import {AppActions} from "../../store";
 import {ThunkDispatch} from 'redux-thunk';
 import {bindActionCreators} from "redux";
+import {connect} from 'react-redux';
 
 // Firebase:
 

@@ -1,26 +1,33 @@
-import React from 'react';
+import React, {FC} from 'react';
 import { Link } from 'react-router-dom';
 import SignedInLinks from "./SignedInLinks";
 import SignedOutLinks from "./SignedOutLinks";
 import {connect} from "react-redux";
 import {AppState} from "../../store";
 
-const Navbar = () => {
+import {FirebaseReducer} from "react-redux-firebase";
+
+interface Props {
+	auth: FirebaseReducer.AuthState
+}
+
+const Navbar: FC<Props> = ({auth}) => {
+	
+	const link = auth.uid ? <SignedInLinks/> : <SignedOutLinks/>
+	
     return (
         <nav className={'nav-wrapper grey darken-3'}>
 	       <div className={'container'}>
 		       <Link to={'/'} className={'brand-logo'}>Planner</Link>
-		       <SignedInLinks/>
-		       <SignedOutLinks/>
+		       {link}
 	       </div>
         </nav>
     )
 }
 
 const mapStateToProps = (state: AppState) => {
-	console.log(state);
 	return {
-	
+		auth: state.firebase.auth
 	}
 }
 
