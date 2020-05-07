@@ -1,6 +1,6 @@
 // Project type:
 export type PROJECT_TYPE = {
-	id: number;
+	id?: number;
 	title: string;
 	content: string;
 	timestamp?: number
@@ -13,11 +13,16 @@ export interface PROJECT_STATE {
 
 // Action types:
 export const CREATE_PROJECT = "CREATE_PROJECT"
+export const CREATE_PROJECT_ERROR = "PROJECT_ERROR"
 
 interface CREATE_PROJECT_ACTION {
 	type: typeof CREATE_PROJECT
 	payload: PROJECT_TYPE
-	
 }
 
-export type PROJECT_ACTION_TYPES = CREATE_PROJECT_ACTION
+interface CREATE_PROJECT_ERROR_ACTION {
+	type: typeof CREATE_PROJECT_ERROR,
+	payload: Error
+}
+
+export type PROJECT_ACTION_TYPES = CREATE_PROJECT_ACTION | CREATE_PROJECT_ERROR_ACTION
