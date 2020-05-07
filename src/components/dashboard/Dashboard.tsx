@@ -1,11 +1,22 @@
 import React, {FC} from 'react';
+
+// Components:
 import Notifications from "./Notifications";
 import ProjectList from "../project/ProjectList";
-import { PROJECT_STATE } from '../../store/reducers/project/types';
-import {AppState} from "../../store";
+import {useFirestoreConnect} from "react-redux-firebase";
 import {connect} from "react-redux";
+import {AppState} from "../../store";
 
-const Dashboard: FC<PROJECT_STATE> = ({projects}) => {
+// State:
+type Props = {
+	projects: any
+}
+// Connection function
+
+const Dashboard: FC<Props> = ({projects}) => {
+	
+	useFirestoreConnect('projects')
+	
 	return (
 		<div className={'dashboard container'}>
 			<div className="row">
@@ -20,14 +31,10 @@ const Dashboard: FC<PROJECT_STATE> = ({projects}) => {
 	)
 }
 
-const mapStateToProps = (state:AppState) => {
-	return{
-		projects: state.project.projects
+const mapStateToProps = (state: AppState) => {
+	return {
+		projects: state.firestore.ordered.projects
 	}
 }
 
-const DashboardContainer = connect(
-	mapStateToProps
-)(Dashboard);
-
-export {DashboardContainer};
+export default connect(mapStateToProps)(Dashboard)
