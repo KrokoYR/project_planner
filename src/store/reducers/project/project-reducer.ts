@@ -1,14 +1,10 @@
-import {CREATE_PROJECT, PROJECT_ACTION_TYPES, PROJECT_STATE} from "../project/types";
+import {CREATE_PROJECT, CREATE_PROJECT_ERROR, PROJECT_ACTION_TYPES, PROJECT_STATE} from "../project/types";
 
 const initState: PROJECT_STATE = {
-	projects: [
-		{id: 1, title: "Help me find peach", content: "blah blah blah"},
-		{id: 2, title: "Help me find apple", content: "blah blah blah"},
-		{id: 3, title: "Help me find banana", content: "blah blah blah"},
-	]
+	projects: []
 }
 
-const projectReducer = (state = initState, action:PROJECT_ACTION_TYPES) => {
+const projectReducer = (state = initState, action: PROJECT_ACTION_TYPES) => {
 	switch (action.type) {
 		case CREATE_PROJECT: {
 			return {
@@ -16,8 +12,14 @@ const projectReducer = (state = initState, action:PROJECT_ACTION_TYPES) => {
 				projects: [...state.projects, action.payload]
 			}
 		}
+		case CREATE_PROJECT_ERROR: {
+			console.log('Create project error', action.payload)
+			return state;
+		}
+		
+		default :
+			return state
 	}
-	return state;
 }
 
 export {projectReducer};
