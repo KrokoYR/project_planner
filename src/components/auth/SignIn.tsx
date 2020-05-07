@@ -1,6 +1,17 @@
 import React, {ChangeEvent, FC, FormEvent, useState} from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import {AppActions, AppState} from "../../store";
+import {CREDENTIAL_TYPE} from "../../store/reducers/auth/types";
+import {bindActionCreators} from "redux";
+import { thunkSignIn } from '../../store/reducers/auth/actions';
+import { connect } from 'react-redux';
 
-const SignIn: FC<any> =() => {
+type SignInProps = {
+	authError: Error | null;
+	thunkSignIn: (credential: CREDENTIAL_TYPE) => void;
+}
+
+const SignIn: FC<SignInProps> =({thunkSignIn, authError}) => {
 	
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -12,6 +23,10 @@ const SignIn: FC<any> =() => {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(email, password);
+		thunkSignIn({
+			email,
+			password
+		})
 	}
 	
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +51,9 @@ const SignIn: FC<any> =() => {
 				
 				<div className="input-field">
 					<button className="btn ping lighten-1 z-depth-0">Login</button>
+					<div className="red-text center">
+						{authError ? <p>{authError.message}</p>: null}
+					</div>
 				</div>
 				
 			</form>
@@ -43,4 +61,14 @@ const SignIn: FC<any> =() => {
 	)
 }
 
-export default SignIn;
+const mapStateToProps = (state: AppState) => ({
+	authError: state.auth.authError
+})
+
+const mapDispatchToProps = (
+	dispatch: ThunkDispatch<any, any, AppActions>
+) => ({
+	thunkSignIn: bindActionCreators(thunkSignIn, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
