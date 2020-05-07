@@ -1,5 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {AppActions} from "../../store";
+import {ThunkDispatch} from "redux-thunk";
+import {bindActionCreators} from "redux";
+import {thunkSingOut} from "../../store/reducers/auth/actions";
+import { connect } from 'react-redux';
 
 const SignedInLinks = () => {
     return (
@@ -17,4 +22,10 @@ const SignedInLinks = () => {
     )
 }
 
-export default SignedInLinks;
+const mapDispatchToProps = (
+    dispatch: ThunkDispatch<any, any, AppActions>
+) => ({
+    thunkSignOut: bindActionCreators(thunkSingOut, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(SignedInLinks);

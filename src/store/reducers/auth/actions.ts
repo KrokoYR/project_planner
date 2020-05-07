@@ -31,7 +31,7 @@ export const thunkSignIn = (credential: CREDENTIAL_TYPE) => {
 	}
 }
 
-export const SingOut = () => {
+export const thunkSingOut = () => {
 	return (dispatch: Dispatch<AUTH_ACTION_TYPES>, getState: () => AppState) => {
 		const firebase = getFirebase()
 		

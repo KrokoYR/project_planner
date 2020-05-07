@@ -2,7 +2,7 @@
 
 * Firebase/Firestore
 * Typescript
-* React/Redux
+* React/Redux(+thunks)
 * react-redux-firebase/redux-firestore
  
 ### What is finished:
