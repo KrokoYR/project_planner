@@ -4,7 +4,6 @@ import {
 	CREDENTIAL_TYPE,
 	LOGIN_ERROR,
 	LOGIN_SUCCESS,
-	SIGN_OUT_ERROR,
 	SIGN_OUT_SUCCESS
 } from "./types";
 import {AppState} from "../../index";
@@ -39,12 +38,6 @@ export const thunkSingOut = () => {
 			.then(() => {
 				dispatch({
 					type: SIGN_OUT_SUCCESS
-				})
-			})
-			.catch((error: Error) => {
-				dispatch({
-					type: SIGN_OUT_ERROR,
-					payload: error
 				})
 			})
 	}
