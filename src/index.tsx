@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 
 // App and css:
 import './index.css';
-import App from './App';
+import { AuthIsLoaded } from './App';
 
 // Service worker:
 import * as serviceWorker from './serviceWorker';
 
 // Redux provider:
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 
 // Firebase provider:
 import {getFirebase, ReactReduxFirebaseProvider} from "react-redux-firebase";
@@ -27,14 +27,14 @@ import 'firebase/firestore'
 
 // Firebase configuration:
 const firebaseConfig = {
-    apiKey: "AIzaSyD5eFbrhN5FVRhQSg2dp91qQFWc_tds9lI",
-    authDomain: "planner-bbe1b.firebaseapp.com",
-    databaseURL: "https://planner-bbe1b.firebaseio.com",
-    projectId: "planner-bbe1b",
-    storageBucket: "planner-bbe1b.appspot.com",
-    messagingSenderId: "930260250094",
-    appId: "1:930260250094:web:f2f470567428641256b2ff",
-    measurementId: "G-EX78EQR4GS"
+	apiKey: "AIzaSyD5eFbrhN5FVRhQSg2dp91qQFWc_tds9lI",
+	authDomain: "planner-bbe1b.firebaseapp.com",
+	databaseURL: "https://planner-bbe1b.firebaseio.com",
+	projectId: "planner-bbe1b",
+	storageBucket: "planner-bbe1b.appspot.com",
+	messagingSenderId: "930260250094",
+	appId: "1:930260250094:web:f2f470567428641256b2ff",
+	measurementId: "G-EX78EQR4GS"
 }
 
 firebase.initializeApp(firebaseConfig);
@@ -43,42 +43,39 @@ firebase.auth();
 export {firebase}
 
 // Store configuration:
-export const configureStore = () => {
-    const store = createStore(rootReducer,
-        compose(
-            applyMiddleware(thunk.withExtraArgument({
-                getFirebase,
-                getFirestore
-            })),
-            reduxFirestore(firebase),
-        )
-    )
-    
-    return store;
-};
-const store = configureStore()
+const store = createStore(rootReducer,
+	compose(
+		applyMiddleware(thunk.withExtraArgument({
+			getFirebase,
+			getFirestore
+		})),
+		reduxFirestore(firebase),
+	)
+)
 
 // react-redux-firebase config
 const rrfConfig = {
-    userProfile: 'users',
-    useFirestoreForProfile: true // Firestore for Profile instead of Realtime DB
+	userProfile: 'users',
+	useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
+	attachAuthIsReady: true,
 }
 
 export const rrfProps = {
-    firebase,
-    config: rrfConfig,
-    dispatch: store.dispatch,
-    createFirestoreInstance
+	firebase,
+	config: rrfConfig,
+	dispatch: store.dispatch,
+	createFirestoreInstance,
 }
 
 ReactDOM.render(
-  <Provider store={store} >
-      <ReactReduxFirebaseProvider {...rrfProps}>
-          <App />
-      </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById('root')
-);
+	<Provider store={store}>
+		<ReactReduxFirebaseProvider {...rrfProps}>
+			<AuthIsLoaded/>
+		</ReactReduxFirebaseProvider>
+	</Provider>,
+	document.getElementById('root')
+)
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
