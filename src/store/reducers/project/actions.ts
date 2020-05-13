@@ -37,7 +37,7 @@ export const thunkCreateProject = (projectData: PROJECT_TYPE) => {
 			authorId: id,
 			authorFirstName: "Lopson",
 			authorLastName: "Balzhinimaev",
-			createAt: new Date()
+			createdAt: new Date()
 		}).then(() => {
 			dispatch(
 				createProject({
