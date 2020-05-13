@@ -8,6 +8,7 @@ type Props = {
 }
 
 const ProjectDetails: FC<Props> = ({project}) => {
+	
 	useFirestoreConnect('projects')
 	
 	if(project) {
@@ -25,7 +26,7 @@ const ProjectDetails: FC<Props> = ({project}) => {
 						</div>
 						<div className="card-action grey lighten-4 grey-text">
 							<div>Posted by {project.authorFirstName} {project.authorLastName}</div>
-							<div>{new Date(project.createAt?.nanoseconds).toDateString()}</div>
+							<div>{new Date(project.createAt?.seconds * 1000).toDateString()}</div>
 						</div>
 					</div>
 				</div>
