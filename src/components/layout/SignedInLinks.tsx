@@ -5,7 +5,7 @@ import {NavLink} from 'react-router-dom';
 import {AppActions} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {bindActionCreators} from "redux";
-import {thunkSingOut} from "../../store/reducers/auth/actions";
+import {thunkSignOut} from "../../store/reducers/auth/actions";
 import {connect} from 'react-redux';
 
 type Props = {
@@ -31,7 +31,7 @@ const DumbComponent: FC<Props> = ({thunkSignOut}) => {
 const mapDispatchToProps = (
 	dispatch: ThunkDispatch<any, any, AppActions>
 ) => ({
-	thunkSignOut: bindActionCreators(thunkSingOut, dispatch)
+	thunkSignOut: bindActionCreators(thunkSignOut, dispatch)
 })
 
 export const SignedInLinks = connect(null, mapDispatchToProps)(DumbComponent);

@@ -26,7 +26,7 @@ const CreateProject: FC<ProjectProps> = ({thunkCreateProject, uid}) => {
 	const [content, setContent] = useState('');
 	
 	// Route protection:
-	if(!uid) return (<Redirect to={'/sign-in'}/>);
+	if (!uid) return (<Redirect to={'/sign-in'}/>);
 	
 	const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
 		if (e.target.id === "title") {
@@ -74,11 +74,11 @@ const mapStateToProps = (state: AppState) => {
 	}
 }
 
-const mapDispatchToProps = (
-	dispatch: ThunkDispatch<any, any, AppActions>
-) => ({
-	thunkCreateProject: bindActionCreators(thunkCreateProject, dispatch)
-})
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActions>) => {
+	return {
+		thunkCreateProject: bindActionCreators(thunkCreateProject, dispatch)
+	}
+}
 
-const CreateProjectContainer = connect(mapStateToProps, mapDispatchToProps)(CreateProject);
-export {CreateProjectContainer};
+
+export const CreateProjectContainer = connect(mapStateToProps, mapDispatchToProps)(CreateProject);
