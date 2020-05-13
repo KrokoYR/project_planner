@@ -3,7 +3,7 @@ export type PROJECT_TYPE = {
 	id?: number;
 	title: string;
 	content: string;
-	timestamp?: number
+	timestamp?: number;
 }
 
 // Projects state:
