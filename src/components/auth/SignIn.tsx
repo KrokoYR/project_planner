@@ -1,25 +1,44 @@
 import React, {ChangeEvent, FC, FormEvent, useState} from 'react';
-import { ThunkDispatch } from 'redux-thunk';
+
+// Imports for mapDispatchToProps:
+import {ThunkDispatch} from 'redux-thunk';
 import {AppActions, AppState} from "../../store";
 import {CREDENTIAL_TYPE} from "../../store/reducers/auth/types";
 import {bindActionCreators} from "redux";
-import { thunkSignIn } from '../../store/reducers/auth/actions';
-import { connect } from 'react-redux';
+import {thunkSignIn} from '../../store/reducers/auth/actions';
+
+// Connect maps to component:
+import {connect} from 'react-redux';
+
+// Route protection:
+import {Redirect} from 'react-router-dom';
 
 type SignInProps = {
 	authError: Error | null;
 	thunkSignIn: (credential: CREDENTIAL_TYPE) => void;
+	uid: string;
 }
 
-const SignIn: FC<SignInProps> =({thunkSignIn, authError}) => {
+const DumbComponent: FC<SignInProps> = ({thunkSignIn, authError, uid}) => {
 	
+	// Component's state:
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	
+	// Route protection:
+	if (uid) return (<Redirect to={'/'}/>)
 	
 	// HTML ids for inputs:
 	const EMAIL_ID = "email";
 	const PASSWORD_ID = "password";
 	
+	// Function to handle changing inputs:
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.id === EMAIL_ID) setEmail(e.target.value);
+		else if (e.target.id === PASSWORD_ID) setPassword(e.target.value);
+	}
+	
+	// Function to handle sending form:
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(email, password);
@@ -27,11 +46,6 @@ const SignIn: FC<SignInProps> =({thunkSignIn, authError}) => {
 			email,
 			password
 		})
-	}
-	
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (e.target.id === EMAIL_ID) setEmail(e.target.value);
-		else if(e.target.id === PASSWORD_ID) setPassword(e.target.value);
 	}
 	
 	return (
@@ -52,23 +66,26 @@ const SignIn: FC<SignInProps> =({thunkSignIn, authError}) => {
 				<div className="input-field">
 					<button className="btn ping lighten-1 z-depth-0">Login</button>
 					<div className="red-text center">
-						{authError ? <p>{authError.message}</p>: null}
+						{authError ? <p>{authError.message}</p> : null}
 					</div>
 				</div>
-				
+			
 			</form>
 		</div>
 	)
 }
 
-const mapStateToProps = (state: AppState) => ({
-	authError: state.auth.authError
-})
+const mapStateToProps = (state: AppState) => {
+	return {
+		authError: state.auth.authError,
+		uid: state.firebase.auth.uid,
+	}
+}
 
 const mapDispatchToProps = (
 	dispatch: ThunkDispatch<any, any, AppActions>
 ) => ({
-	thunkSignIn: bindActionCreators(thunkSignIn, dispatch)
+	thunkSignIn: bindActionCreators(thunkSignIn, dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export const SignIn = connect(mapStateToProps, mapDispatchToProps)(DumbComponent);

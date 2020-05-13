@@ -5,21 +5,28 @@ import {PROJECT_TYPE} from "../../store/reducers/project/types";
 import {thunkCreateProject} from "../../store/reducers/project/actions";
 
 // Imports to handle mapDispatchToProps:
-import {AppActions} from "../../store";
+import {AppActions, AppState} from "../../store";
 import {ThunkDispatch} from 'redux-thunk';
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 
+// Route protection:
+import {Redirect} from "react-router-dom";
+
 // Firebase:
 
 interface ProjectProps {
-	thunkCreateProject: (project: PROJECT_TYPE) => void
+	thunkCreateProject: (project: PROJECT_TYPE) => void;
+	uid: string;
 }
 
-const CreateProject: FC<ProjectProps> = ({thunkCreateProject}) => {
+const CreateProject: FC<ProjectProps> = ({thunkCreateProject, uid}) => {
 	
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
+	
+	// Route protection:
+	if(!uid) return (<Redirect to={'/sign-in'}/>);
 	
 	const handleChange = (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => {
 		if (e.target.id === "title") {
@@ -61,11 +68,17 @@ const CreateProject: FC<ProjectProps> = ({thunkCreateProject}) => {
 	)
 }
 
+const mapStateToProps = (state: AppState) => {
+	return {
+		uid: state.firebase.auth.uid,
+	}
+}
+
 const mapDispatchToProps = (
 	dispatch: ThunkDispatch<any, any, AppActions>
-): ProjectProps => ({
+) => ({
 	thunkCreateProject: bindActionCreators(thunkCreateProject, dispatch)
 })
 
-const CreateProjectContainer = connect(null, mapDispatchToProps)(CreateProject);
+const CreateProjectContainer = connect(mapStateToProps, mapDispatchToProps)(CreateProject);
 export {CreateProjectContainer};

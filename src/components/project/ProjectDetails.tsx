@@ -1,17 +1,28 @@
 import React, {FC} from 'react';
+
+// Imports for mapStateToProps:
 import {AppState} from "../../store";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+
+// Realtime checking firestore cloud for updates:
 import {useFirestoreConnect} from "react-redux-firebase";
 
+// Route protection:
+import {Redirect} from "react-router-dom";
+
 type Props = {
-	project: any
+	project: any;
+	uid: string;
 }
 
-const ProjectDetails: FC<Props> = ({project}) => {
+const DumbComponent: FC<Props> = ({project, uid}) => {
 	
 	useFirestoreConnect('projects')
 	
-	if(project) {
+	// Route protection:
+	if (!uid) return (<Redirect to={'/sign-in'}/>)
+	
+	if (project) {
 		return (
 			<div>
 				<div className="container section project-details">
@@ -47,8 +58,9 @@ const mapStateToProps = (state: AppState, ownProps: any) => {
 	const projects = state.firestore.data.projects
 	const project = projects ? projects[id] : null
 	return {
-		project: project
+		project: project,
+		uid: state.firebase.auth.uid,
 	}
 }
 
-export default connect(mapStateToProps)(ProjectDetails);
+export const ProjectDetails = connect(mapStateToProps)(DumbComponent);

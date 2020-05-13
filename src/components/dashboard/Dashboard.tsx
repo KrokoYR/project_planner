@@ -1,21 +1,32 @@
 import React, {FC} from 'react';
 
 // Components:
-import Notifications from "./Notifications";
-import ProjectList from "../project/ProjectList";
-import {useFirestoreConnect} from "react-redux-firebase";
-import {connect} from "react-redux";
+import {Notifications} from "./Notifications";
+import {ProjectList} from "../project/ProjectList";
+
+// Imports for mapStateToProps:
 import {AppState} from "../../store";
+import {connect} from "react-redux";
+
+// Route protection:
+import {Redirect} from 'react-router-dom';
+
+// Connection to firebase:
+import {useFirestoreConnect} from "react-redux-firebase";
 
 // State:
 type Props = {
-	projects: any
+	projects: any;
+	uid: string;
 }
-// Connection function
 
-const Dashboard: FC<Props> = ({projects}) => {
-	
+
+const DumbComponent: FC<Props> = ({projects, uid}) => {
+	// Connection to firebase:
 	useFirestoreConnect('projects')
+	
+	// Route protection:
+	if (!uid) return (<Redirect to={'/sign-in'}/>)
 	
 	return (
 		<div className={'dashboard container'}>
@@ -33,8 +44,9 @@ const Dashboard: FC<Props> = ({projects}) => {
 
 const mapStateToProps = (state: AppState) => {
 	return {
-		projects: state.firestore.ordered.projects
+		projects: state.firestore.ordered.projects,
+		uid: state.firebase.auth.uid,
 	}
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export const Dashboard = connect(mapStateToProps)(DumbComponent)
