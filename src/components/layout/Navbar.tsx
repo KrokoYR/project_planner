@@ -13,9 +13,11 @@ interface Props {
 
 const Navbar: FC<Props> = ({auth}) => {
 	
-	const link = auth.uid ? <SignedInLinks/> : <SignedOutLinks/>
+	const loaded = auth.isLoaded
+	console.log(loaded);
+	let link =  auth.uid ? <SignedInLinks/> : <SignedOutLinks/>
 	
-    return (
+	return (
         <nav className={'nav-wrapper grey darken-3'}>
 	       <div className={'container'}>
 		       <Link to={'/'} className={'brand-logo'}>Planner</Link>
