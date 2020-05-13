@@ -17,4 +17,4 @@ const ProjectSummary: FC<PROJECT_TYPE> = ({
 	)
 }
 
-export default ProjectSummary;
+export {ProjectSummary};

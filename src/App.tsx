@@ -1,21 +1,32 @@
-import React, {Component, FC, ReactElement, ReactNode} from 'react';
+import React, {Component, FC} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import Navbar from "./components/layout/Navbar";
-import ProjectDetails from "./components/project/ProjectDetails";
-import SignIn from "./components/auth/SignIn";
-import SignUp from './components/auth/SignUp';
+
+// Navbar component:
+import {Navbar} from "./components/layout/Navbar";
+
+// SingIn/SignOut components:
+import {SignIn} from "./components/auth/SignIn";
+import {SignUp} from './components/auth/SignUp';
+
+// Components for projects:
 import {CreateProjectContainer} from "./components/project/CreateProject";
-import Dashboard from './components/dashboard/Dashboard';
-import {FirebaseReducer, getFirebase, isLoaded} from "react-redux-firebase";
-import {connect} from "react-redux";
+import {ProjectDetails} from "./components/project/ProjectDetails";
+
+// Dashboard component:
+import {Dashboard} from './components/dashboard/Dashboard';
+
+// Imports for mapStateToProps:
 import {AppState} from "./store";
+import {connect} from "react-redux";
+
+// Firebase reducer to check auth IS READY or NOT
+import {FirebaseReducer} from "react-redux-firebase";
 
 interface AuthIsReady {
-	auth: FirebaseReducer.AuthState
+	auth: FirebaseReducer.AuthState;
 }
 
 const dumbComponent: FC<AuthIsReady> = ({auth}) => {
-	
 	let elem = (<div>Loading screen</div>)
 	if(auth.isLoaded) elem = <App/>
 	return elem
@@ -23,11 +34,12 @@ const dumbComponent: FC<AuthIsReady> = ({auth}) => {
 
 const mapStateToProps = (state: AppState) => {
 	return {
-		auth: state.firebase.auth
+		auth: state.firebase.auth,
 	}
 }
-
 export const AuthIsLoaded = connect(mapStateToProps)(dumbComponent);
+
+
 
 class App extends Component<any, any> {
 	
@@ -49,4 +61,4 @@ class App extends Component<any, any> {
 	}
 }
 
-export default App;
+export {App}

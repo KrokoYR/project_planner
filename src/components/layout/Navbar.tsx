@@ -1,21 +1,21 @@
 import React, {FC} from 'react';
 import { Link } from 'react-router-dom';
-import SignedInLinks from "./SignedInLinks";
-import SignedOutLinks from "./SignedOutLinks";
-import {connect} from "react-redux";
-import {AppState} from "../../store";
 
-import {FirebaseReducer} from "react-redux-firebase";
+import {SignedInLinks} from "./SignedInLinks";
+import {SignedOutLinks} from "./SignedOutLinks";
+
+// Imports for mapStateToProps:
+import {AppState} from "../../store";
+import {connect} from "react-redux";
 
 interface Props {
-	auth: FirebaseReducer.AuthState
+	uid: string;
 }
 
-const Navbar: FC<Props> = ({auth}) => {
+const DumbComponent: FC<Props> = ({uid}) => {
 	
-	const loaded = auth.isLoaded
-	console.log(loaded);
-	let link =  auth.uid ? <SignedInLinks/> : <SignedOutLinks/>
+	// Dynamic changing of UI with accordance with auth state(logged in/out):
+	let link =  uid ? <SignedInLinks/> : <SignedOutLinks/>
 	
 	return (
         <nav className={'nav-wrapper grey darken-3'}>
@@ -29,8 +29,8 @@ const Navbar: FC<Props> = ({auth}) => {
 
 const mapStateToProps = (state: AppState) => {
 	return {
-		auth: state.firebase.auth
+		uid: state.firebase.auth.uid
 	}
 }
 
-export default connect(mapStateToProps)(Navbar);
+export const Navbar = connect(mapStateToProps)(DumbComponent);

@@ -1,7 +1,11 @@
 import React, {FC} from 'react';
-import ProjectSummary from "./ProjectSummary";
-import {PROJECT_STATE} from "../../store/reducers/project/types";
 import {Link} from "react-router-dom";
+
+// Components:
+import {ProjectSummary} from "./ProjectSummary";
+
+// Types:
+import {PROJECT_STATE} from "../../store/reducers/project/types";
 
 const ProjectList: FC<PROJECT_STATE> = ({projects}) => {
 	
@@ -29,4 +33,4 @@ const ProjectList: FC<PROJECT_STATE> = ({projects}) => {
 	)
 }
 
-export default ProjectList;
+export {ProjectList};
