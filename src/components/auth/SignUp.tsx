@@ -1,17 +1,25 @@
 import React, {ChangeEvent, FC, FormEvent, useState} from 'react';
 
 // Imports for mapStateToProps:
-import {AppState} from "../../store";
+import {AppActions, AppState} from "../../store";
 import {connect} from "react-redux";
 
+// Imports for mapDispatchToProps:
+import {ThunkDispatch} from "redux-thunk";
+import {bindActionCreators} from "redux";
+import {thunkSignUp} from "../../store/reducers/auth/actions";
+import {NEW_USER_TYPE} from "../../store/reducers/auth/types";
+
 // Route protection:
-import { Redirect } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+
 
 type SignUpProps = {
 	uid: string;
+	thunkSignUp: (newUser: NEW_USER_TYPE) => void;
 }
 
-const DumbComponent: FC<SignUpProps> = ({uid}) => {
+const DumbComponent: FC<SignUpProps> = ({uid, thunkSignUp}) => {
 	
 	// Component state:
 	const [email, setEmail] = useState('')
@@ -30,16 +38,21 @@ const DumbComponent: FC<SignUpProps> = ({uid}) => {
 	
 	// Function to handle changing inputs:
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if(e.target.id === EMAIL_ID) setEmail(e.target.value);
-		else if(e.target.id === PASSWORD_ID) setPassword(e.target.value);
-		else if(e.target.id === LAST_NAME_ID) setLastName(e.target.value);
-		else if(e.target.id === FIRST_NAME_ID) setFirstName(e.target.value);
+		if (e.target.id === EMAIL_ID) setEmail(e.target.value);
+		else if (e.target.id === PASSWORD_ID) setPassword(e.target.value);
+		else if (e.target.id === LAST_NAME_ID) setLastName(e.target.value);
+		else if (e.target.id === FIRST_NAME_ID) setFirstName(e.target.value);
 	}
 	
 	// Function to handle sending form:
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(email, password, lastName, firstName);
+		thunkSignUp({
+			email,
+			password,
+			firstName,
+			lastName,
+		})
 	}
 	
 	return (
@@ -82,4 +95,10 @@ const mapStateToProps = (state: AppState) => {
 	}
 }
 
-export const SignUp = connect(mapStateToProps)(DumbComponent);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActions>) => {
+	return {
+		thunkSignUp: bindActionCreators(thunkSignUp, dispatch),
+	}
+}
+
+export const SignUp = connect(mapStateToProps, mapDispatchToProps)(DumbComponent);
