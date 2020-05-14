@@ -26,7 +26,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 
 // Firebase configuration:
-const firebaseConfig = {
+const firebaseConfig: Partial<any> = {
 	apiKey: "AIzaSyD5eFbrhN5FVRhQSg2dp91qQFWc_tds9lI",
 	authDomain: "planner-bbe1b.firebaseapp.com",
 	databaseURL: "https://planner-bbe1b.firebaseio.com",
@@ -49,22 +49,27 @@ const store = createStore(rootReducer,
 			getFirebase,
 			getFirestore
 		})),
-		reduxFirestore(firebase),
+		reduxFirestore(firebase, firebaseConfig),
 	)
 )
 
 // react-redux-firebase config
 const rrfConfig = {
 	userProfile: 'users',
-	useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
-	attachAuthIsReady: true,
+	useFirestoreForProfile: true,
+	enableRedirectHandling: false,
+	resetBeforeLogin: false
 }
+
 
 export const rrfProps = {
 	firebase,
+	// @ts-ignore
 	config: rrfConfig,
 	dispatch: store.dispatch,
 	createFirestoreInstance,
+	presence: 'presence',
+	sessions: 'sessions'
 }
 
 ReactDOM.render(
