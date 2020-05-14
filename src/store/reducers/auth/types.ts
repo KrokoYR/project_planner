@@ -53,5 +53,5 @@ export interface NEW_USER_TYPE {
 // Auth state:
 export interface AUTH_STATE {
 	loggedIn: boolean;
-	authError: Error | null;
+	authError: string;
 }

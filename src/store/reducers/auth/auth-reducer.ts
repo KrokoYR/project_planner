@@ -10,27 +10,30 @@ import {
 
 const initState: AUTH_STATE = {
 	loggedIn: false,
-	authError: null,
+	authError: '',
 }
 
-const authReducer = (state = initState, action: AUTH_ACTION_TYPES) => {
+const authReducer = (
+	state = initState,
+	action: AUTH_ACTION_TYPES
+) => {
 	switch (action.type) {
-		
-		case LOGIN_SUCCESS: {
-			console.log("login success")
-			return {
-				...state,
-				loggedIn: true,
-				authError: null
-			}
-		}
 		
 		case LOGIN_ERROR: {
 			console.log('login error', action.payload)
 			return {
 				...state,
 				loggedIn: false,
-				authError: action.payload
+				authError: action.payload.message
+			}
+		}
+		
+		case LOGIN_SUCCESS: {
+			console.log("login success")
+			return {
+				...state,
+				loggedIn: true,
+				authError: '',
 			}
 		}
 		
@@ -42,19 +45,19 @@ const authReducer = (state = initState, action: AUTH_ACTION_TYPES) => {
 			}
 		}
 		
-		case SIGN_UP_SUCCESS: {
-			console.log("Sign up success")
-			return {
-				...state,
-				authError: null,
-			}
-		}
-		
 		case SIGN_UP_ERROR: {
 			console.log("Sign up error: ", action.payload)
 			return {
 				...state,
 				authError: action.payload.message,
+			}
+		}
+		
+		case SIGN_UP_SUCCESS: {
+			console.log("Sign up success")
+			return {
+				...state,
+				authError: '',
 			}
 		}
 		
