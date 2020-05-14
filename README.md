@@ -1,5 +1,5 @@
 #### Project link: 
-[Planner](https://planner-bbe1b.web.app);
+[Planner](https://planner-bbe1b.web.app)
 
 ### Project setup:
 
