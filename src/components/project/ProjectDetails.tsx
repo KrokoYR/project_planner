@@ -9,6 +9,7 @@ import {useFirestoreConnect} from "react-redux-firebase";
 
 // Route protection:
 import {Redirect} from "react-router-dom";
+import moment from "moment";
 
 type Props = {
 	project: any;
@@ -21,6 +22,8 @@ const DumbComponent: FC<Props> = ({project, uid}) => {
 	
 	// Route protection:
 	if (!uid) return (<Redirect to={'/sign-in'}/>)
+	
+	const date = moment(project?.createdAt.toDate()).calendar()
 	
 	if (project) {
 		return (
@@ -37,7 +40,7 @@ const DumbComponent: FC<Props> = ({project, uid}) => {
 						</div>
 						<div className="card-action grey lighten-4 grey-text">
 							<div>Posted by {project.authorFirstName} {project.authorLastName}</div>
-							<div>{new Date(project.createAt?.seconds * 1000).toDateString()}</div>
+							<div>{date}</div>
 						</div>
 					</div>
 				</div>

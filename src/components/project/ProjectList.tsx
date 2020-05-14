@@ -4,20 +4,15 @@ import {Link} from "react-router-dom";
 // Components:
 import {ProjectSummary} from "./ProjectSummary";
 
-// Types:
-import {PROJECT_STATE} from "../../store/reducers/project/types";
+interface ProjectListProps {
+	projects: Array<any>;
+}
 
-const ProjectList: FC<PROJECT_STATE> = ({projects}) => {
-	
+const ProjectList: FC<ProjectListProps> = ({projects}) => {
 	const projectElems = projects && projects.map(project => {
-		
 		return (
 			<Link key={project.id} to={'/project/' + project.id}>
-				<ProjectSummary key={project.id}
-				                id={project.id}
-				                title={project.title}
-				                content={project.content}
-				                timestamp={project.timestamp}/>
+				<ProjectSummary project={project}/>
 			</Link>
 		)
 	})

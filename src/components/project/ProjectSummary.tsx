@@ -1,18 +1,21 @@
 import React, {FC} from 'react';
-import {PROJECT_TYPE} from '../../store/reducers/project/types';
+import moment from "moment";
 
-const ProjectSummary: FC<PROJECT_TYPE> = ({
-	                                          id,
-	                                          title,
-	                                          content,
-	                                          timestamp
-                                          }) => {
+interface ProjectSummaryProps {
+	project: any;
+}
+
+const ProjectSummary: FC<ProjectSummaryProps> = ({project}) => {
+	
+	// Converting Timestamp to Date:
+	const date = moment(project?.createdAt.toDate()).calendar()
+	
 	return (
 		<div className={'card-content grey-text text-darken-3'}>
-			<span className={'card-title'}>{title}</span>
-			<p>{content}</p>
-			<p>Posted by the Lopson</p>
-			<p className={'grey-text'}>{timestamp}</p>
+			<span className={'card-title'}>{project.title}</span>
+			<p>{project.content}</p>
+			<p>Posted by the {project.authorFirstName} {project.authorLastName}</p>
+			<p className={'grey-text'}>{date}</p>
 		</div>
 	)
 }
