@@ -1,8 +1,7 @@
 import {CREATE_PROJECT, CREATE_PROJECT_ERROR, PROJECT_ACTION_TYPES, PROJECT_TYPE} from "./types";
 import {ActionCreator, Dispatch} from 'redux';
 import {AppActions, AppState} from "../../index";
-// uuid for creating unique id for projects:
-import { v4 as uuid } from 'uuid'
+
 //firebase:
 import {firebase} from '../../../index'
 import {getFirestore} from "redux-firestore";
@@ -29,23 +28,24 @@ export const thunkCreateProject = (projectData: PROJECT_TYPE) => {
 		} = projectData;
 		const project = {title, content};
 		
-		const id = uuid();
+		const author = getState().firebase.profile;
+		const uid = getState().firebase.auth.uid;
 		
 		const firestore = getFirestore(firebase)
 		firestore.collection('projects').add({
 			...projectData,
-			authorId: id,
-			authorFirstName: "Lopson",
-			authorLastName: "Balzhinimaev",
+			authorId: uid,
+			authorFirstName: author.firstName,
+			authorLastName: author.lastName,
 			createdAt: new Date()
 		}).then(() => {
 			dispatch(
 				createProject({
-					id,
+					uid,
 					...project,
 				})
 			)
-		}).catch((error: Error)=>{
+		}).catch((error: Error) => {
 			dispatch(
 				createProjectError(
 					error
