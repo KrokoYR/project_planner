@@ -29,7 +29,7 @@ const DumbComponent: FC<Props> = ({uid}) => {
 
 const mapStateToProps = (state: AppState) => {
 	return {
-		uid: state.firebase.auth.uid
+		uid: state.firebase.auth.uid,
 	}
 }
 

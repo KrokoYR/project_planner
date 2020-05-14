@@ -9,7 +9,7 @@ import {SignIn} from "./components/auth/SignIn";
 import {SignUp} from './components/auth/SignUp';
 
 // Components for projects:
-import {CreateProjectContainer} from "./components/project/CreateProject";
+import {CreateProject} from "./components/project/CreateProject";
 import {ProjectDetails} from "./components/project/ProjectDetails";
 
 // Dashboard component:
@@ -39,8 +39,6 @@ const mapStateToProps = (state: AppState) => {
 }
 export const AuthIsLoaded = connect(mapStateToProps)(dumbComponent);
 
-
-
 class App extends Component<any, any> {
 	
 	render() {
@@ -53,7 +51,7 @@ class App extends Component<any, any> {
 						<Route path={'/project/:id'} component={ProjectDetails}/>
 						<Route path={'/sign-in'} component={SignIn}/>
 						<Route path={'/sign-up'} component={SignUp}/>
-						<Route path={'/create-project'} component={CreateProjectContainer}/>
+						<Route path={'/create-project'} component={CreateProject}/>
 					</Switch>
 				</div>
 			</BrowserRouter>
