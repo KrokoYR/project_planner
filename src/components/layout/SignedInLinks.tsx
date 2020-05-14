@@ -2,17 +2,18 @@ import React, {FC} from 'react';
 import {NavLink} from 'react-router-dom';
 
 // Import for mapDispatchToProps:
-import {AppActions} from "../../store";
+import {AppActions, AppState} from "../../store";
 import {ThunkDispatch} from "redux-thunk";
 import {bindActionCreators} from "redux";
 import {thunkSignOut} from "../../store/reducers/auth/actions";
 import {connect} from 'react-redux';
 
 type Props = {
-	thunkSignOut: () => void
+	profile: any;
+	thunkSignOut: () => void;
 }
 
-const DumbComponent: FC<Props> = ({thunkSignOut}) => {
+const DumbComponent: FC<Props> = ({thunkSignOut, profile}) => {
 	return (
 		<ul className="right">
 			<li>
@@ -22,16 +23,22 @@ const DumbComponent: FC<Props> = ({thunkSignOut}) => {
 				<a href='#' onClick={thunkSignOut}>Log Out</a>
 			</li>
 			<li>
-				<NavLink to={'/'} className={'btn btn-floating pink lighten-1'}>NN</NavLink>
+				<NavLink to={'/'} className={'btn btn-floating pink lighten-1'}>{profile.initials}</NavLink>
 			</li>
 		</ul>
 	)
 }
 
-const mapDispatchToProps = (
-	dispatch: ThunkDispatch<any, any, AppActions>
-) => ({
-	thunkSignOut: bindActionCreators(thunkSignOut, dispatch)
-})
+const mapStateToProps = (state: AppState) => {
+	return {
+		profile: state.firebase.profile,
+	}
+}
 
-export const SignedInLinks = connect(null, mapDispatchToProps)(DumbComponent);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActions>) => {
+	return {
+		thunkSignOut: bindActionCreators(thunkSignOut, dispatch)
+	}
+};
+
+export const SignedInLinks = connect(mapStateToProps, mapDispatchToProps)(DumbComponent);
