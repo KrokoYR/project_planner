@@ -44,6 +44,7 @@ export const thunkSignOut = () => {
 		
 		firebase.auth().signOut()
 			.then(() => {
+				firebase.logout();
 				dispatch({
 					type: SIGN_OUT_SUCCESS
 				})
@@ -64,7 +65,7 @@ export const thunkSignUp = (newUser: NEW_USER_TYPE) => {
 			return firestore.collection('users').doc(response.user?.uid).set({
 				firstName: newUser.firstName,
 				lastName: newUser.lastName,
-				initials: newUser.firstName[0] + newUser.lastName[0],
+				initials: newUser.lastName[0] + newUser.firstName[0],
 			})
 		}).then(() => {
 			dispatch({
