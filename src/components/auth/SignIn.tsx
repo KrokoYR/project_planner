@@ -14,12 +14,12 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
 type SignInProps = {
-	authError: Error | null;
 	thunkSignIn: (credential: CREDENTIAL_TYPE) => void;
 	uid: string;
+	authError: string;
 }
 
-const DumbComponent: FC<SignInProps> = ({thunkSignIn, authError, uid}) => {
+const DumbComponent: FC<SignInProps> = ({thunkSignIn, uid,authError}) => {
 	
 	// Component's state:
 	const [email, setEmail] = useState('');
@@ -64,9 +64,9 @@ const DumbComponent: FC<SignInProps> = ({thunkSignIn, authError, uid}) => {
 				</div>
 				
 				<div className="input-field">
-					<button className="btn ping lighten-1 z-depth-0">Login</button>
+					<button className="btn pink lighten-1 z-depth-0">Login</button>
 					<div className="red-text center">
-						{authError ? <p>{authError.message}</p> : null}
+						{authError ? <p>{authError}</p> : null}
 					</div>
 				</div>
 			
@@ -77,8 +77,8 @@ const DumbComponent: FC<SignInProps> = ({thunkSignIn, authError, uid}) => {
 
 const mapStateToProps = (state: AppState) => {
 	return {
-		authError: state.auth.authError,
 		uid: state.firebase.auth.uid,
+		authError: state.auth.authError,
 	}
 }
 

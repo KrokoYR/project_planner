@@ -17,10 +17,10 @@ import {Redirect} from 'react-router-dom';
 type SignUpProps = {
 	uid: string;
 	thunkSignUp: (newUser: NEW_USER_TYPE) => void;
+	authError: string;
 }
 
-const DumbComponent: FC<SignUpProps> = ({uid, thunkSignUp}) => {
-	
+const DumbComponent: FC<SignUpProps> = ({uid, thunkSignUp, authError}) => {
 	// Component state:
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -81,7 +81,10 @@ const DumbComponent: FC<SignUpProps> = ({uid, thunkSignUp}) => {
 				</div>
 				
 				<div className="input-field">
-					<button className="btn ping lighten-1 z-depth-0">Sign up</button>
+					<div className={'red-text center'}>
+						<p>{authError}</p>
+					</div>
+					<button className="btn pink lighten-1 z-depth-0">Sign up</button>
 				</div>
 			
 			</form>
@@ -92,6 +95,7 @@ const DumbComponent: FC<SignUpProps> = ({uid, thunkSignUp}) => {
 const mapStateToProps = (state: AppState) => {
 	return {
 		uid: state.firebase.auth.uid,
+		authError: state.auth.authError,
 	}
 }
 

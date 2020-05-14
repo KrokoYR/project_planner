@@ -11,7 +11,7 @@ import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 
 // Route protection:
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 
 // Firebase:
 
@@ -20,10 +20,12 @@ interface ProjectProps {
 	uid: string;
 }
 
-const CreateProject: FC<ProjectProps> = ({thunkCreateProject, uid}) => {
+const DumbComponent: FC<ProjectProps> = ({thunkCreateProject, uid}) => {
 	
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
+	
+	const history = useHistory()
 	
 	// Route protection:
 	if (!uid) return (<Redirect to={'/sign-in'}/>);
@@ -42,6 +44,7 @@ const CreateProject: FC<ProjectProps> = ({thunkCreateProject, uid}) => {
 			title: title,
 			content: content
 		})
+		history.push('/')
 	}
 	
 	return (
@@ -80,5 +83,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActions>) => {
 	}
 }
 
-
-export const CreateProjectContainer = connect(mapStateToProps, mapDispatchToProps)(CreateProject);
+export const CreateProject = connect(mapStateToProps, mapDispatchToProps)(DumbComponent);
