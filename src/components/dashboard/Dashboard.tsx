@@ -17,13 +17,21 @@ import {useFirestoreConnect} from "react-redux-firebase";
 // State:
 type Props = {
 	projects: any;
+	notifications: any[];
 	uid: string;
 }
 
 
-const DumbComponent: FC<Props> = ({projects, uid}) => {
+const DumbComponent: FC<Props> = ({projects, notifications, uid}) => {
 	// Connection to firebase:
-	useFirestoreConnect('projects')
+	useFirestoreConnect({collection: 'projects', orderBy: ['createdAt', 'desc'],})
+	useFirestoreConnect({
+		collection: 'notifications',
+		limit: 3,
+		orderBy: ['time', 'desc'],
+	})
+	
+	//type OrderByOptions = [string, FirestoreTypes.OrderByDirection]
 	
 	// Route protection:
 	if (!uid) return (<Redirect to={'/sign-in'}/>)
@@ -35,7 +43,7 @@ const DumbComponent: FC<Props> = ({projects, uid}) => {
 					<ProjectList projects={projects}/>
 				</div>
 				<div className="col s12 m5 offset-m1">
-					<Notifications/>
+					<Notifications notifications={notifications}/>
 				</div>
 			</div>
 		</div>
@@ -45,6 +53,7 @@ const DumbComponent: FC<Props> = ({projects, uid}) => {
 const mapStateToProps = (state: AppState) => {
 	return {
 		projects: state.firestore.ordered.projects,
+		notifications: state.firestore.ordered.notifications,
 		uid: state.firebase.auth.uid,
 	}
 }
