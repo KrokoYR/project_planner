@@ -1,3 +1,6 @@
+#### Project link: 
+[Planner]('planner-bbe1b.web.app');
+
 ### Project setup:
 
 * Firebase/Firestore
